@@ -49,7 +49,7 @@ hangman_game/
 │   ├── __init__.py        # __version__
 │   ├── __main__.py        # python -m hangman
 │   ├── game.py            # HangmanGame, tokenize, choose_word
-│   ├── images.py          # svg_for(...) emoji picture rewards
+│   ├── images.py          # image_url_for(...) real emoji (Twemoji) images
 │   ├── packs.py           # discover / load / validate / upload packs
 │   ├── cli.py             # colorful terminal game
 │   └── languages/         # en.json, ta.json (+ uploads/)

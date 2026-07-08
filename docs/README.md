@@ -9,8 +9,9 @@ multilingual, kid-friendly and joyful. Ships with **English** and **Tamil**, a
 colorful terminal version, and a bright, fully responsive web UI with confetti
 celebrations.
 
-> Everything runs **100% offline** — no internet, no external assets. Picture
-> rewards are rendered from standard emoji.
+> The game logic runs offline; the only network asset is the **word picture
+> reward**, a real emoji image served from the standard [Twemoji](https://github.com/jdecked/twemoji)
+> set via CDN.
 
 ---
 
@@ -20,7 +21,7 @@ celebrations.
 | --- | --- |
 | **Versatile & Multilingual** | Play in any language via simple JSON **language packs**. Ships with English + Tamil. Players can **upload their own packs** (file drop or web form) — packs are auto-discovered at runtime. |
 | **Kid-friendly** | Only simple, curated easy words (animals, fruits, colors, common objects), each with a friendly hint. |
-| **Images** | When a word is completed, a big, colorful **emoji picture** of that word appears (mapped from the word); unknown words fall back to a friendly first-letter card. |
+| **Images** | When a word is completed, a big, colorful **real emoji image** of that word appears (a Twemoji PNG, mapped from the word); unknown words fall back to a friendly sparkle. |
 | **Joyful / Positive** | Bright, cheerful palette (sunny yellows, soft greens, sky blues, playful pinks), **confetti** on win, encouraging messages, gentle "good try" on loss — never harsh. |
 | **Responsive** | The web UI works on phones, tablets, and desktops with an **on-screen tappable keyboard** and large touch targets. |
 
@@ -112,11 +113,18 @@ never breaks the game — see `packs.discover_packs`).
 
 ## 🖼️ Picture Rewards
 
-`src/hangman/images.py` exposes `svg_for(id_or_word) -> str`. It renders a
-**standard emoji** for the word (cat → 🐱, sun → ☀️, mango → 🥭, …) on a soft
-rounded card, falling back to the word's first letter when no emoji is mapped.
-The result always begins with `<svg`, so it is safe to embed inline or serve
-directly.
+`src/hangman/images.py` maps a word to a **real emoji image** from the standard
+[Twemoji](https://github.com/jdecked/twemoji) set — no hand-drawn SVG. The flow
+is `word -> emoji -> Twemoji codepoint filename -> PNG URL`:
+
+- `emoji_for(id_or_word) -> str` — the emoji character (cat → 🐱, sun → ☀️,
+  mango → 🥭, …), falling back to a sparkle 🌟 when no emoji is mapped.
+- `image_url_for(id_or_word) -> str` — the corresponding Twemoji PNG URL, e.g.
+  `.../assets/72x72/1f431.png` for 🐱.
+
+The web UI renders this URL in an `<img>` on win, and `GET /api/image/<id>`
+redirects to it. Building the URL is pure Python with no dependencies; only the
+browser fetches the image.
 
 ---
 
@@ -156,7 +164,7 @@ python web/app.py
 
 - **Home:** language picker + pack upload form.
 - **Game:** big masked word, positive rainbow progress, tappable keyboard,
-  hint button, confetti + emoji picture on win, gentle encouragement on loss.
+  hint button, confetti + real emoji image on win, gentle encouragement on loss.
 
 ### JSON API
 
@@ -166,7 +174,7 @@ python web/app.py
 | `POST` | `/api/guess` | Guess a token: `{"token":"A"}` |
 | `GET` | `/api/state` | Current round state |
 | `POST` | `/api/upload-pack` | Upload a pack (file or JSON) |
-| `GET` | `/api/image/<id>` | Serve a generated SVG |
+| `GET` | `/api/image/<id>` | Redirect to the real emoji image (Twemoji PNG) |
 
 ---
 
@@ -178,8 +186,8 @@ python -m pytest -q
 
 Covers: English & Tamil tokenization (including clusters/virama), win/lose
 logic, max wrong guesses, masked display, pack loading & validation, image
-rendering returning valid SVG, and random word selection within a pack. No
-network access required.
+image URL mapping (word → emoji → Twemoji PNG URL), and random word selection
+within a pack. No network access required for the tests.
 
 ---
 

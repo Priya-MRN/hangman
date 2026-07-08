@@ -167,7 +167,9 @@ body { display: flex; align-items: center; justify-content: center;
   box-shadow: var(--shadow); animation: pop .35s ease;
 }
 .overlay-card h2 { font-size: 2rem; margin: 0 0 10px; color: var(--pink); }
-.overlay-image svg { width: 180px; height: 180px; }
+.overlay-image svg,
+.overlay-image .reward-img { width: 180px; height: 180px; }
+.overlay-image .reward-img { object-fit: contain; image-rendering: auto; }
 #overlay-word { font-size: 1.4rem; font-weight: bold; color: var(--blue); }
 #overlay-msg { color: var(--green); font-weight: bold; }
 
@@ -185,7 +187,8 @@ body { display: flex; align-items: center; justify-content: center;
   .word-row { font-size: 1.8rem; }
   .key { min-width: 40px; min-height: 48px; font-size: 1.1rem; }
   .game-title { font-size: 1.3rem; }
-  .overlay-image svg { width: 140px; height: 140px; }
+  .overlay-image svg,
+  .overlay-image .reward-img { width: 140px; height: 140px; }
 }
 @media (max-width: 380px) {
   .key { min-width: 34px; min-height: 44px; font-size: 1rem; padding: 4px 6px; }

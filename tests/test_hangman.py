@@ -120,15 +120,23 @@ def test_parse_pack_text_roundtrip():
 # --- Images ----------------------------------------------------------------
 
 
-def test_svg_for_known_id():
-    svg = images.svg_for("cat")
-    assert svg.startswith("<svg")
-    assert "</svg>" in svg
+def test_image_url_for_known_id():
+    url = images.image_url_for("cat")
+    # A real Twemoji PNG image URL for the cat emoji (U+1F431).
+    assert url.startswith("https://")
+    assert url.endswith(".png")
+    assert "1f431" in url
 
 
-def test_svg_for_unknown_uses_fallback():
-    svg = images.svg_for("zzz-unknown")
-    assert svg.startswith("<svg")
+def test_image_url_for_unknown_uses_fallback():
+    url = images.image_url_for("zzz-unknown")
+    assert url.startswith("https://")
+    assert url.endswith(".png")
+
+
+def test_emoji_for_maps_and_falls_back():
+    assert images.emoji_for("cat") == "🐱"
+    assert images.emoji_for("zzz-unknown") == "🌟"
 
 
 def test_available_ids_nonempty():

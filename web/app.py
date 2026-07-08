@@ -15,7 +15,7 @@ Endpoints
 * ``POST /api/guess``        - submit a guess, returns updated state.
 * ``GET  /api/state``        - current round state.
 * ``POST /api/upload-pack``  - upload a new language pack (JSON).
-* ``GET  /api/image/<id>``   - serve a generated SVG illustration.
+* ``GET  /api/image/<id>``   - redirect to the real emoji image (Twemoji PNG).
 
 The current round is kept in the Flask session, so play is per-user without a
 database.
@@ -31,6 +31,7 @@ from flask import (
     Flask,
     Response,
     jsonify,
+    redirect,
     render_template,
     request,
     session,
@@ -110,9 +111,11 @@ def _load_game() -> tuple[HangmanGame | None, dict | None]:
 
 
 def _state_response(game: HangmanGame, data: dict) -> Response:
-    """Build the JSON state, including the win image SVG and keyboard."""
-    won_svg = images.svg_for(game.image or game.word) if game.is_won else None
-    state = game.state(won_image_svg=won_svg)
+    """Build the JSON state, including the win image URL and keyboard."""
+    won_url = (
+        images.image_url_for(game.image or game.word) if game.is_won else None
+    )
+    state = game.state(won_image_url=won_url)
     state["keyboard"] = data["keyboard"]
     state["direction"] = data["direction"]
     state["language"] = data["language"]
@@ -215,9 +218,8 @@ def api_upload_pack() -> Response:
 
 @app.route("/api/image/<image_id>")
 def api_image(image_id: str) -> Response:
-    """Serve a generated SVG illustration for *image_id*."""
-    svg = images.svg_for(image_id)
-    return Response(svg, mimetype="image/svg+xml")
+    """Redirect to the real emoji image (Twemoji PNG) for *image_id*."""
+    return redirect(images.image_url_for(image_id))
 
 
 if __name__ == "__main__":  # pragma: no cover

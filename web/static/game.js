@@ -142,7 +142,14 @@
   function showOverlay() {
     if (state.is_won) {
       el.overlayTitle.textContent = "🎉 You Win! 🎉";
-      el.overlayImage.innerHTML = state.image_svg || "";
+      el.overlayImage.innerHTML = "";
+      if (state.image_url) {
+        const img = document.createElement("img");
+        img.src = state.image_url;
+        img.alt = state.word || "";
+        img.className = "reward-img";
+        el.overlayImage.appendChild(img);
+      }
       el.overlayWord.textContent = state.word;
       el.overlayMsg.textContent = pick(WIN_MSGS);
       launchConfetti();

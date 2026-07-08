@@ -170,7 +170,7 @@ class HangmanGame:
 
     # --- Serialization ---------------------------------------------------
 
-    def state(self, won_image_svg: str | None = None) -> dict:
+    def state(self, won_image_url: str | None = None) -> dict:
         """Return a JSON-serializable snapshot of the game for the web UI."""
         data = {
             "lang": self.lang,
@@ -190,8 +190,9 @@ class HangmanGame:
         if self.is_over:
             # Reveal the answer only once the round is finished.
             data["word"] = self.word
-        if self.is_won and won_image_svg is not None:
-            data["image_svg"] = won_image_svg
+        if self.is_won and won_image_url is not None:
+            # A real emoji image (Twemoji PNG) URL for the completed word.
+            data["image_url"] = won_image_url
         return data
 
 
