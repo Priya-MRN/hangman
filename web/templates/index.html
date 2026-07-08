@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hangman for Kids 🎈</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body class="picker-page">
+  <div class="bg-blobs" aria-hidden="true"></div>
+
+  <main class="card welcome">
+    <h1 class="title">🎈 Hangman <span>for Kids</span></h1>
+    <p class="subtitle">Pick a language and let's play! 🌈</p>
+
+    {% if error %}
+      <p class="error">{{ error }}</p>
+    {% endif %}
+
+    <section class="lang-grid">
+      {% for lang in languages %}
+        <a class="lang-btn" href="{{ url_for('play', code=lang.code) }}">
+          <span class="lang-name">{{ lang.language }}</span>
+          <span class="lang-count">{{ lang.count }} words</span>
+        </a>
+      {% else %}
+        <p>No language packs found.</p>
+      {% endfor %}
+    </section>
+
+    <details class="upload-box">
+      <summary>➕ Add a new language pack</summary>
+      <p class="hint-text">
+        Upload a JSON pack file. It auto-appears in the list above.
+      </p>
+      <form id="upload-form">
+        <input type="file" id="pack-file" accept=".json,application/json" />
+        <button type="submit" class="btn-go">Upload pack</button>
+      </form>
+      <p id="upload-msg" class="upload-msg" role="status"></p>
+    </details>
+
+    <footer class="foot">Made with ☀️ for happy learning · v{{ version }}</footer>
+  </main>
+
+  <script>
+    // Small inline uploader so the picker page has no extra JS file.
+    const form = document.getElementById('upload-form');
+    const msg = document.getElementById('upload-msg');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const fileInput = document.getElementById('pack-file');
+      if (!fileInput.files.length) {
+        msg.textContent = 'Please choose a .json pack file first.';
+        return;
+      }
+      const data = new FormData();
+      data.append('file', fileInput.files[0]);
+      msg.textContent = 'Uploading…';
+      try {
+        const res = await fetch('/api/upload-pack', { method: 'POST', body: data });
+        const json = await res.json();
+        if (res.ok) {
+          msg.textContent = `🎉 Added "${json.language}" (${json.count} words)! Reloading…`;
+          setTimeout(() => location.reload(), 900);
+        } else {
+          msg.textContent = '😅 ' + (json.error || 'Upload failed.');
+        }
+      } catch (err) {
+        msg.textContent = '😅 Could not upload: ' + err;
+      }
+    });
+  </script>
+</body>
+</html>

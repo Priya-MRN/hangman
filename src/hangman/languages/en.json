@@ -1,0 +1,39 @@
+{
+  "language": "English",
+  "code": "en",
+  "direction": "ltr",
+  "alphabet": [
+    "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M",
+    "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"
+  ],
+  "words": [
+    {"word": "CAT", "hint": "A pet that says meow", "image": "cat"},
+    {"word": "DOG", "hint": "A pet that says woof", "image": "dog"},
+    {"word": "FISH", "hint": "It swims in water", "image": "fish"},
+    {"word": "BIRD", "hint": "It can fly and sing", "image": "bird"},
+    {"word": "FROG", "hint": "Green and goes hop hop", "image": "frog"},
+    {"word": "DUCK", "hint": "A bird that says quack", "image": "duck"},
+    {"word": "COW", "hint": "Farm animal that gives milk", "image": "cow"},
+    {"word": "PIG", "hint": "Pink farm animal", "image": "pig"},
+    {"word": "LION", "hint": "King of the jungle", "image": "lion"},
+    {"word": "BEAR", "hint": "Big furry animal that loves honey", "image": "bear"},
+    {"word": "APPLE", "hint": "A red round fruit", "image": "apple"},
+    {"word": "BANANA", "hint": "A long yellow fruit", "image": "banana"},
+    {"word": "GRAPES", "hint": "Tiny round fruits in a bunch", "image": "grapes"},
+    {"word": "MANGO", "hint": "A sweet yellow fruit", "image": "mango"},
+    {"word": "SUN", "hint": "It shines in the sky by day", "image": "sun"},
+    {"word": "MOON", "hint": "It glows in the sky at night", "image": "moon"},
+    {"word": "STAR", "hint": "It twinkles in the night sky", "image": "star"},
+    {"word": "TREE", "hint": "It is tall and green with leaves", "image": "tree"},
+    {"word": "FLOWER", "hint": "It is pretty and smells nice", "image": "flower"},
+    {"word": "BALL", "hint": "You kick it or throw it", "image": "ball"},
+    {"word": "HOUSE", "hint": "A place where we live", "image": "house"},
+    {"word": "CAR", "hint": "It has four wheels and drives", "image": "car"},
+    {"word": "HEART", "hint": "A shape that means love", "image": "heart"},
+    {"word": "EGG", "hint": "A hen lays it", "image": "egg"},
+    {"word": "MILK", "hint": "A white drink that is good for you", "image": "milk"},
+    {"word": "RED", "hint": "The color of a strawberry", "image": "heart"},
+    {"word": "BLUE", "hint": "The color of the sky", "image": "fish"},
+    {"word": "GREEN", "hint": "The color of grass", "image": "tree"}
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "language": "தமிழ் (Tamil)",
+  "code": "ta",
+  "direction": "ltr",
+  "alphabet": [],
+  "words": [
+    {"word": "பூனை", "hint": "Cat - a pet that says meow", "image": "cat"},
+    {"word": "நாய்", "hint": "Dog - a pet that says woof", "image": "dog"},
+    {"word": "மீன்", "hint": "Fish - it swims in water", "image": "fish"},
+    {"word": "பறவை", "hint": "Bird - it can fly and sing", "image": "bird"},
+    {"word": "தவளை", "hint": "Frog - green and goes hop hop", "image": "frog"},
+    {"word": "மாடு", "hint": "Cow - farm animal that gives milk", "image": "cow"},
+    {"word": "சிங்கம்", "hint": "Lion - king of the jungle", "image": "lion"},
+    {"word": "முயல்", "hint": "Rabbit - it hops and has long ears", "image": "rabbit"},
+    {"word": "பந்து", "hint": "Ball - you kick it or throw it", "image": "ball"},
+    {"word": "மரம்", "hint": "Tree - tall and green with leaves", "image": "tree"},
+    {"word": "பழம்", "hint": "Fruit - sweet and good to eat", "image": "apple"},
+    {"word": "பூ", "hint": "Flower - pretty and smells nice", "image": "flower"},
+    {"word": "சூரியன்", "hint": "Sun - it shines in the sky by day", "image": "sun"},
+    {"word": "நிலா", "hint": "Moon - it glows in the sky at night", "image": "moon"},
+    {"word": "நட்சத்திரம்", "hint": "Star - it twinkles at night", "image": "star"},
+    {"word": "வீடு", "hint": "House - a place where we live", "image": "house"},
+    {"word": "கார்", "hint": "Car - it has wheels and drives", "image": "car"},
+    {"word": "பால்", "hint": "Milk - a white drink that is good for you", "image": "milk"},
+    {"word": "முட்டை", "hint": "Egg - a hen lays it", "image": "egg"},
+    {"word": "வாழை", "hint": "Banana - a long yellow fruit", "image": "banana"},
+    {"word": "மாம்பழம்", "hint": "Mango - a sweet yellow fruit", "image": "mango"},
+    {"word": "எலி", "hint": "Mouse - a small animal", "image": "cat"},
+    {"word": "ஆடு", "hint": "Goat - a farm animal", "image": "cow"},
+    {"word": "தண்ணீர்", "hint": "Water - we drink it", "image": "fish"},
+    {"word": "கண்", "hint": "Eye - we see with it", "image": "heart"}
+  ]
+}

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hangman · {{ language }} 🎈</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body class="game-page" data-code="{{ code }}">
+  <div class="bg-blobs" aria-hidden="true"></div>
+  <canvas id="confetti" class="confetti" aria-hidden="true"></canvas>
+
+  <main class="card game">
+    <header class="game-head">
+      <a class="back" href="{{ url_for('index') }}">⬅ Languages</a>
+      <h1 class="game-title">🎈 {{ language }}</h1>
+    </header>
+
+    <!-- POSITIVE THEME: a rainbow fills + hearts deplete on wrong guesses. -->
+    <section class="rainbow-wrap" aria-label="Tries left">
+      <div id="rainbow" class="rainbow"></div>
+      <div id="hearts" class="hearts"></div>
+    </section>
+
+    <section class="word-row" id="word" aria-live="polite"></section>
+
+    <p class="message" id="message" aria-live="polite">Loading…</p>
+
+    <section class="controls">
+      <button class="btn-hint" id="hint-btn">💡 Hint</button>
+      <button class="btn-new" id="new-btn">🔄 New word</button>
+    </section>
+    <p class="hint-display" id="hint-display"></p>
+
+    <section class="keyboard" id="keyboard" aria-label="Letters"></section>
+
+    <!-- Win / lose overlay -->
+    <div class="overlay" id="overlay" hidden>
+      <div class="overlay-card">
+        <h2 id="overlay-title"></h2>
+        <div class="overlay-image" id="overlay-image"></div>
+        <p id="overlay-word"></p>
+        <p id="overlay-msg"></p>
+        <button class="btn-go" id="overlay-again">🎮 Play again</button>
+      </div>
+    </div>
+  </main>
+
+  <script src="{{ url_for('static', filename='game.js') }}"></script>
+</body>
+</html>
