@@ -63,9 +63,3 @@ hangman_game/
 ├── pyproject.toml
 └── README.md
 ```
-
----
-
-## 📜 License
-
-MIT.

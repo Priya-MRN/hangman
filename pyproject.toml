@@ -9,7 +9,6 @@ description = "A versatile, multilingual, kid-friendly Hangman game (English + T
 readme = "README.md"
 requires-python = ">=3.10"
 authors = [{ name = "Interconnected" }]
-license = { text = "MIT" }
 keywords = ["hangman", "game", "kids", "multilingual", "tamil", "education"]
 dependencies = [
     "flask>=3.0",
