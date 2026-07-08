@@ -22,9 +22,11 @@
       <div id="hearts" class="hearts"></div>
     </section>
 
-    <section class="word-row" id="word" aria-live="polite"></section>
+    <section class="word-row" id="word" aria-live="polite" aria-label="Word to guess"></section>
 
-    <p class="message" id="message" aria-live="polite">Loading…</p>
+    <p class="message" id="message" aria-live="polite">
+      <span class="loading">Getting a new word ready<span class="dots" aria-hidden="true"><i></i><i></i><i></i></span></span>
+    </p>
 
     <section class="controls">
       <button class="btn-hint" id="hint-btn">💡 Hint</button>
@@ -35,7 +37,7 @@
     <section class="keyboard" id="keyboard" aria-label="Letters"></section>
 
     <!-- Win / lose overlay -->
-    <div class="overlay" id="overlay" hidden>
+    <div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-labelledby="overlay-title" hidden>
       <div class="overlay-card">
         <h2 id="overlay-title"></h2>
         <div class="overlay-image" id="overlay-image"></div>

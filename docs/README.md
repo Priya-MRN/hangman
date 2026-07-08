@@ -99,15 +99,31 @@ A language pack is a small UTF-8 **JSON** file:
 
 ### Adding a language
 
-1. **By file:** drop a `<code>.json` pack into
-   `src/hangman/languages/` (built-in) or `src/hangman/languages/uploads/`
-   (user packs). It is auto-discovered next time the app reads packs.
-2. **By web form:** on the home page, expand **"➕ Add a new language pack"** and
-   upload your `.json`. It is validated, saved to the uploads folder, and the
-   picker reloads with your new language.
+**Easiest (recommended) — download the template, edit, upload:**
 
-Invalid packs are rejected with a friendly message (and a single bad upload
-never breaks the game — see `packs.discover_packs`).
+1. On the home page, expand **"➕ Add a new language pack"**.
+2. Click **⬇️ Download template (.json)** — this saves
+   `hangman-language-pack-template.json`, a ready-to-edit example that documents
+   every field inline (it also has a `_readme` note the loader safely ignores).
+3. Open it in any text editor, replace the example with your language's
+   `language`, `code`, and `words` (each word can have a `hint` and an `image`).
+4. Upload it back on the same page. It's validated, saved, and the picker
+   reloads with your new language.
+
+The **"How the format works"** panel on that page shows the annotated JSON and,
+via **"See picture ids"**, the list of built-in `image` ids that render a picture
+reward (served by `GET /api/image-ids`).
+
+**Alternatives:**
+
+- **By file:** drop a `<code>.json` pack into `src/hangman/languages/` (built-in)
+  or `src/hangman/languages/uploads/` (user packs) — auto-discovered on next read.
+- **Get the template via the API:** `GET /api/pack-template` returns the same
+  downloadable starter file.
+
+Uploaded files are accepted with or without a UTF-8 BOM (some editors add one).
+Invalid packs are rejected with a friendly message, and a single bad upload never
+breaks the game — see `packs.discover_packs`.
 
 ---
 
@@ -174,6 +190,8 @@ python web/app.py
 | `POST` | `/api/guess` | Guess a token: `{"token":"A"}` |
 | `GET` | `/api/state` | Current round state |
 | `POST` | `/api/upload-pack` | Upload a pack (file or JSON) |
+| `GET` | `/api/pack-template` | Download a ready-to-edit example pack (`.json`) |
+| `GET` | `/api/image-ids` | List `image` ids that have a picture reward |
 | `GET` | `/api/image/<id>` | Redirect to the real emoji image (Twemoji PNG) |
 
 ---
@@ -198,12 +216,12 @@ here in `docs/`:
 
 | File | What it shows |
 | --- | --- |
-| `demo.mp4` | Full screen recording — English + Tamil rounds, wins, confetti *(not committed to git; kept locally)* |
-| `demo-thumbnail.png` | Poster frame for the video (an English "You Win!" screen) |
+| `demo.mp4` | Full screen recording — English + Tamil rounds, wins, confetti (compressed 720p, committed) |
+| `demo-thumbnail.png` | Poster frame for the video (a Tamil "You Win!" screen) |
 | `screenshot-landing.png` | Home / language picker |
 | `screenshot-game.png` | English game in progress (rainbow, hearts, keyboard) |
 | `screenshot-win.png` | Win overlay — confetti + emoji picture reward |
 | `screenshot-tamil.png` | Tamil round with the syllable-cluster keyboard |
 
-All screenshots were extracted from `demo.mp4`. To refresh them, re-run the app
+Screenshots reflect the current polished UI. To refresh them, re-run the app
 (`python web/app.py`) and recapture, keeping the same filenames.

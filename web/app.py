@@ -216,6 +216,55 @@ def api_upload_pack() -> Response:
     })
 
 
+@app.route("/api/pack-template")
+def api_pack_template() -> Response:
+    """Serve a ready-to-edit example language pack as a downloadable JSON file.
+
+    This gives new users a correct, self-documenting starting point: the file
+    shows every field, uses valid image ids the game recognises, and includes a
+    short ``_readme`` note (ignored by the loader) explaining each key.
+    """
+    import json
+
+    template = {
+        "_readme": (
+            "Fill this in for your language, then upload it on the Hangman home "
+            "page. Required: language, code, words (each word needs 'word'). "
+            "Optional per word: 'hint' and 'image'. Optional pack-level: "
+            "'alphabet' (omit for scripts like Tamil so the keyboard is built "
+            "from the word's own characters) and 'direction' ('ltr' or 'rtl'). "
+            "Delete these two _readme lines if you like — the loader ignores "
+            "unknown keys. See /api/image-ids for image ids that have a picture."
+        ),
+        "_example_note": "This example is English; replace it with your language.",
+        "language": "My Language",
+        "code": "mylang",
+        "direction": "ltr",
+        "alphabet": list("ABCDEFGHIJKLMNOPQRSTUVWXYZ"),
+        "words": [
+            {"word": "CAT", "hint": "A pet that says meow", "image": "cat"},
+            {"word": "SUN", "hint": "It shines in the sky by day", "image": "sun"},
+            {"word": "APPLE", "hint": "A red round fruit", "image": "apple"},
+            {"word": "STAR", "hint": "It twinkles at night", "image": "star"},
+            {"word": "HELLO", "hint": "A friendly greeting"},
+        ],
+    }
+    body = json.dumps(template, ensure_ascii=False, indent=2)
+    return Response(
+        body,
+        mimetype="application/json",
+        headers={
+            "Content-Disposition": "attachment; filename=hangman-language-pack-template.json"
+        },
+    )
+
+
+@app.route("/api/image-ids")
+def api_image_ids() -> Response:
+    """Return the image ids that resolve to a dedicated picture reward."""
+    return jsonify({"ids": images.available_ids()})
+
+
 @app.route("/api/image/<image_id>")
 def api_image(image_id: str) -> Response:
     """Redirect to the real emoji image (Twemoji PNG) for *image_id*."""

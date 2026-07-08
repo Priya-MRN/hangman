@@ -28,5 +28,6 @@ htmlcov/
 .DS_Store
 Thumbs.db
 
-# Large media (exceeds GitHub file-size limit)
-docs/demo.mp4
+# The demo video is compressed (<1 MB) and committed so it renders on GitHub.
+# Raw/large recordings stay out of git:
+/*.mp4

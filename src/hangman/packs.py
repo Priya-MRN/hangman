@@ -98,7 +98,9 @@ def load_pack_file(path: str | Path) -> dict:
     """Load and validate a single pack JSON *path*."""
     path = Path(path)
     try:
-        raw = path.read_text(encoding="utf-8")
+        # utf-8-sig tolerates a leading BOM that some editors (e.g. Notepad)
+        # add when saving; it decodes plain UTF-8 identically otherwise.
+        raw = path.read_text(encoding="utf-8-sig")
     except OSError as exc:  # pragma: no cover - filesystem dependent
         raise PackError(f"Could not read pack file: {exc}") from exc
     try:
@@ -110,6 +112,8 @@ def load_pack_file(path: str | Path) -> dict:
 
 def parse_pack_text(text: str) -> dict:
     """Validate pack JSON supplied as a raw *text* string (e.g. an upload)."""
+    # Strip a leading UTF-8 BOM in case the uploaded file was saved with one.
+    text = text.lstrip("﻿")
     try:
         data = json.loads(text)
     except json.JSONDecodeError as exc:

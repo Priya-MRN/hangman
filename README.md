@@ -9,6 +9,16 @@ rewards, a colorful CLI, and a responsive web UI with confetti.
 
 ---
 
+## 🎬 Demo Video
+
+A quick walkthrough — pick a language, play English + Tamil rounds, and win with
+confetti and a picture reward. Click the poster to play
+[`docs/demo.mp4`](docs/demo.mp4):
+
+[![Watch the demo](docs/demo-thumbnail.png)](docs/demo.mp4)
+
+---
+
 ## 📸 Screenshots
 
 ### 🌈 Landing page (language picker)

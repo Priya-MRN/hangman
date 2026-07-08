@@ -19,9 +19,10 @@
 
     <section class="lang-grid">
       {% for lang in languages %}
-        <a class="lang-btn" href="{{ url_for('play', code=lang.code) }}">
+        <a class="lang-btn" href="{{ url_for('play', code=lang.code) }}"
+           aria-label="Play in {{ lang.language }}, {{ lang.count }} words">
           <span class="lang-name">{{ lang.language }}</span>
-          <span class="lang-count">{{ lang.count }} words</span>
+          <span class="lang-count">📚 {{ lang.count }} words</span>
         </a>
       {% else %}
         <p>No language packs found.</p>
@@ -30,9 +31,44 @@
 
     <details class="upload-box">
       <summary>➕ Add a new language pack</summary>
+
       <p class="hint-text">
-        Upload a JSON pack file. It auto-appears in the list above.
+        New here? <strong>Step 1:</strong> download the template, <strong>Step 2:</strong>
+        edit it for your language, <strong>Step 3:</strong> upload it below. It
+        auto-appears in the list above.
       </p>
+
+      <p>
+        <a class="btn-download" href="/api/pack-template" download>
+          ⬇️ Download template (.json)
+        </a>
+      </p>
+
+      <details class="format-help">
+        <summary>📄 How the format works</summary>
+        <p class="hint-text">A pack is a small UTF-8 JSON file:</p>
+        <pre class="code-block">{
+  "language": "My Language",   <span class="cmt">// shown in the picker (required)</span>
+  "code": "mylang",            <span class="cmt">// short unique id (required)</span>
+  "direction": "ltr",          <span class="cmt">// "ltr" or "rtl" (optional)</span>
+  "alphabet": ["A", "B", "..."],<span class="cmt">// keyboard keys; omit for Tamil-like scripts</span>
+  "words": [                   <span class="cmt">// at least one word (required)</span>
+    {
+      "word": "CAT",           <span class="cmt">// the word to guess (required)</span>
+      "hint": "A pet that says meow", <span class="cmt">// optional</span>
+      "image": "cat"           <span class="cmt">// optional picture id (see below)</span>
+    }
+  ]
+}</pre>
+        <ul class="hint-list">
+          <li><strong>Required:</strong> <code>language</code>, <code>code</code>, and a non-empty <code>words</code> list (each word needs <code>word</code>).</li>
+          <li><strong>Optional per word:</strong> <code>hint</code> and <code>image</code>.</li>
+          <li><strong>alphabet</strong> is the on-screen keyboard. <em>Omit it</em> for scripts like Tamil — the keyboard is then built from the word's own characters.</li>
+          <li><strong>image</strong> gives a picture reward on a win. <a href="#" id="show-image-ids">See picture ids ▾</a></li>
+        </ul>
+        <p id="image-ids" class="image-ids" hidden></p>
+      </details>
+
       <form id="upload-form">
         <input type="file" id="pack-file" accept=".json,application/json" />
         <button type="submit" class="btn-go">Upload pack</button>
@@ -56,7 +92,8 @@
       }
       const data = new FormData();
       data.append('file', fileInput.files[0]);
-      msg.textContent = 'Uploading…';
+      msg.innerHTML = '<span class="loading">Uploading your pack' +
+        '<span class="dots" aria-hidden="true"><i></i><i></i><i></i></span></span>';
       try {
         const res = await fetch('/api/upload-pack', { method: 'POST', body: data });
         const json = await res.json();
@@ -69,6 +106,26 @@
       } catch (err) {
         msg.textContent = '😅 Could not upload: ' + err;
       }
+    });
+
+    // Lazy-load the list of valid picture ids when the user asks to see them.
+    const idsLink = document.getElementById('show-image-ids');
+    const idsBox = document.getElementById('image-ids');
+    let idsLoaded = false;
+    idsLink.addEventListener('click', async (e) => {
+      e.preventDefault();
+      if (idsBox.hidden && !idsLoaded) {
+        try {
+          const res = await fetch('/api/image-ids');
+          const json = await res.json();
+          idsBox.textContent = (json.ids || []).join(' · ');
+          idsLoaded = true;
+        } catch {
+          idsBox.textContent = 'Could not load the picture ids.';
+        }
+      }
+      idsBox.hidden = !idsBox.hidden;
+      idsLink.textContent = idsBox.hidden ? 'See picture ids ▾' : 'Hide picture ids ▴';
     });
   </script>
 </body>
